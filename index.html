@@ -773,21 +773,44 @@
             </div>
 
             <!-- Custom Love Message Box for Her to Type Back -->
-            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-rose-200 shadow-xl space-y-4 text-center">
-                <span class="text-3xl">💬💌</span>
-                <h3 class="font-serif text-2xl text-rose-deep font-bold">
-                    Leave A Little Note For Your Silly Hubby!
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-rose-200 shadow-xl space-y-5 text-center">
+                <div class="inline-flex items-center gap-2 bg-pink-100 text-rose-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                    <span>💌 Hubby's Direct WhatsApp Inbox</span>
+                </div>
+                <h3 class="font-serif text-2xl sm:text-3xl text-rose-deep font-bold">
+                    Send Your Reply & Claimed Coupons To Hubby! 📲💖
                 </h3>
-                <p class="text-xs sm:text-sm text-gray-500 max-w-md mx-auto">
-                    Aapka koi bhi hukum, daant, ya pyaara sa message yahan likhiye:
+                <p class="text-xs sm:text-sm text-gray-600 max-w-md mx-auto">
+                    Aapka koi bhi hukum, daant, ya pyaar bhara message aur redeemed coupons seedha hubby ke phone par bhej dijiye!
                 </p>
+
+                <!-- Claimed Coupons Summary Container -->
+                <div class="max-w-lg mx-auto bg-rose-50/90 p-4 rounded-2xl border border-rose-200/80 text-left space-y-2">
+                    <div class="flex items-center justify-between text-xs font-bold text-rose-700">
+                        <span class="flex items-center gap-1.5">
+                            <span>🎫</span> Claimed Husband Coupons (<span id="couponCountBadge">0</span>)
+                        </span>
+                        <button onclick="switchTab('coupons')" class="text-rose-500 hover:underline text-[11px] font-bold">
+                            + Aur Coupons Redeem Karein ✨
+                        </button>
+                    </div>
+                    <div id="claimedCouponsList" class="flex flex-wrap gap-1.5 min-h-[30px] items-center">
+                        <span class="text-gray-400 italic text-xs">Abhi tak koi coupon select nahi kiya (Tab 3 me ja kar free me redeem karein!) 🍫✨</span>
+                    </div>
+                </div>
+
+                <!-- Wife Note Textarea -->
                 <div class="max-w-lg mx-auto space-y-3">
-                    <textarea id="wifeNoteInput" rows="3" placeholder="Yahan likho meri princess ji... 'Theek he ab muskura rahi hu' ya fir 'Pehle ice cream khilao' 🍨🥺" class="w-full p-4 rounded-2xl border-2 border-rose-200 focus:outline-none focus:border-rose-500 bg-white/90 text-sm font-medium text-gray-700 shadow-inner resize-none"></textarea>
-                    <button onclick="saveWifeNote()" class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold px-6 py-2.5 rounded-full shadow-md transition active:scale-95 text-sm inline-flex items-center gap-2">
-                        <span>Save & Send Love To Hubby 💖</span>
-                    </button>
-                    <div id="wifeNoteFeedback" class="text-xs font-bold text-emerald-600 hidden">
-                        Aapka pyaara message save ho gaya! Hubby is jumping with joy! 🎉❤️
+                    <textarea id="wifeNoteInput" rows="3" placeholder="Yahan likho meri princess ji... 'Theek he ab muskura rahi hu' ya fir 'Pehle ice cream khilao' 🍨🥺" class="w-full p-4 rounded-2xl border-2 border-rose-200 focus:outline-none focus:border-rose-500 bg-white/95 text-sm font-medium text-gray-700 shadow-inner resize-none"></textarea>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                        <button onclick="sendToHubbyWhatsApp()" class="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-black px-6 py-3.5 rounded-full shadow-lg transition active:scale-95 text-sm sm:text-base flex items-center justify-center gap-2.5">
+                            <span class="text-xl">📲</span>
+                            <span>Send Directly To Hubby's WhatsApp</span>
+                        </button>
+                    </div>
+                    <div id="wifeNoteFeedback" class="text-xs font-bold text-emerald-600 hidden pt-2">
+                        Aapka message aur coupons ready hain! WhatsApp khul raha hai... Hubby is jumping with joy! 🎉❤️
                     </div>
                 </div>
             </div>
@@ -841,7 +864,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="relative z-10 text-center py-10 mt-16 text-rose-500/80 text-xs sm:text-sm font-medium space-y-2">
+    <footer class="relative z-10 text-center py-10 mt-16 text-rose-500/80 text-xs sm:text-sm font-medium space-y-3">
         <p class="flex items-center justify-center gap-1.5 flex-wrap">
             <span>Made with 1,000,000% Pure Love for</span>
             <span class="font-bold text-rose-600 underline">My Dear Princess Ji</span>
@@ -851,6 +874,15 @@
             <span class="font-bold text-rose-600">My Bavv</span>
             <span>🧸💍</span>
         </p>
+        <div class="flex items-center justify-center gap-3 text-xs font-semibold text-rose-400">
+            <button onclick="setHubbyPhoneNumber()" class="hover:text-rose-600 underline cursor-pointer">
+                ⚙️ Set Hubby WhatsApp Number
+            </button>
+            <span>•</span>
+            <button onclick="viewHubbyBillModal()" class="hover:text-rose-600 underline cursor-pointer">
+                📋 View Claimed Coupons Bill
+            </button>
+        </div>
         <p class="text-gray-400 text-[11px]">
             Forever & Always Your Silly Husband • All Rights Reserved for Cuddles & Kisses
         </p>
@@ -985,6 +1017,28 @@
             playChime(783.99, 0.15);
         }
 
+        // Hubby Notification & Coupon Tracking
+        let claimedCoupons = [];
+        let HUBBY_PHONE = localStorage.getItem('hubby_phone_number') || "";
+
+        function updateClaimedCouponsUI() {
+            const listEl = document.getElementById('claimedCouponsList');
+            const badgeEl = document.getElementById('couponCountBadge');
+            if (badgeEl) badgeEl.innerText = claimedCoupons.length;
+
+            if (listEl) {
+                if (claimedCoupons.length === 0) {
+                    listEl.innerHTML = '<span class="text-gray-400 italic text-xs">Abhi tak koi coupon select nahi kiya (Tab 3 me ja kar free me redeem karein!) 🍫✨</span>';
+                } else {
+                    listEl.innerHTML = claimedCoupons.map(c => 
+                        `<span class="bg-rose-200/90 text-rose-800 font-bold px-3 py-1 rounded-full text-xs shadow-sm flex items-center gap-1.5 border border-rose-300">
+                            <span>✅</span> ${c}
+                        </span>`
+                    ).join('');
+                }
+            }
+        }
+
         // Redeem Coupons
         function redeemCoupon(btn, title) {
             if (navigator.vibrate) navigator.vibrate([30, 40, 60]);
@@ -992,6 +1046,12 @@
             btn.innerText = "Redeemed with Love ❤️";
             btn.classList.remove('bg-rose-500', 'bg-pink-500', 'bg-purple-500', 'bg-amber-500', 'bg-red-500', 'bg-rose-600');
             btn.classList.add('bg-emerald-600', 'text-white', 'cursor-default');
+
+            if (!claimedCoupons.includes(title)) {
+                claimedCoupons.push(title);
+                localStorage.setItem('claimed_coupons_list', JSON.stringify(claimedCoupons));
+                updateClaimedCouponsUI();
+            }
 
             confetti({
                 particleCount: 50,
@@ -1143,16 +1203,78 @@
             });
         }
 
-        // Save wife note
-        function saveWifeNote() {
-            const text = document.getElementById('wifeNoteInput').value.trim();
-            if (text) {
-                localStorage.setItem('wife_love_note', text);
-                const feedback = document.getElementById('wifeNoteFeedback');
-                feedback.classList.remove('hidden');
-                confetti({ particleCount: 30, spread: 50 });
-                playChime(698.46, 0.2);
+        // Send to Hubby's WhatsApp
+        function sendToHubbyWhatsApp() {
+            const note = document.getElementById('wifeNoteInput').value.trim();
+            const lovePercent = document.getElementById('loveVal') ? document.getElementById('loveVal').innerText : '1000%';
+            
+            if (note) {
+                localStorage.setItem('wife_love_note', note);
             }
+
+            // Build cute, emoji-filled WhatsApp message
+            let msg = `👑 *MESSAGE FROM YOUR DEAR PRINCESS JI* 👑\n\n`;
+            msg += `🥰 *My Decision:* Maine apne silly husband ko maaf kar diya! 💕\n`;
+            msg += `💖 *Love Level:* ${lovePercent}\n\n`;
+
+            if (claimedCoupons.length > 0) {
+                msg += `🎫 *Redeemed Husband Coupons (${claimedCoupons.length}):*\n`;
+                claimedCoupons.forEach((c, idx) => {
+                    msg += `  ${idx + 1}. ${c}\n`;
+                });
+                msg += `\n`;
+            } else {
+                msg += `🎫 *Redeemed Coupons:* (Abhi aur coupons select karna baaki hai! 😜)\n\n`;
+            }
+
+            if (note) {
+                msg += `💌 *Mera Hukum / Note:*\n"${note}"\n\n`;
+            } else {
+                msg += `💌 *Mera Hukum:* "Kaan pakad ke ready raho, ice-cream khilane le chalo! 🍨🥺"\n\n`;
+            }
+
+            msg += `🌸 Forever & Always Your Wifyji, My Bavv, Chotu Baby 💍❤️`;
+
+            const feedback = document.getElementById('wifeNoteFeedback');
+            if (feedback) feedback.classList.remove('hidden');
+
+            confetti({ particleCount: 70, spread: 80 });
+            if (navigator.vibrate) navigator.vibrate([40, 50, 80]);
+            playChime(783.99, 0.25);
+
+            // Construct WhatsApp URL
+            let waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
+            if (HUBBY_PHONE) {
+                waUrl = `https://api.whatsapp.com/send?phone=${HUBBY_PHONE}&text=${encodeURIComponent(msg)}`;
+            } else {
+                const userEntered = prompt("Hubby ka WhatsApp number enter karein (e.g. 919876543210):", "91");
+                if (userEntered) {
+                    HUBBY_PHONE = userEntered.replace(/[^0-9]/g, '');
+                    localStorage.setItem('hubby_phone_number', HUBBY_PHONE);
+                    waUrl = `https://api.whatsapp.com/send?phone=${HUBBY_PHONE}&text=${encodeURIComponent(msg)}`;
+                }
+            }
+
+            setTimeout(() => {
+                window.open(waUrl, '_blank');
+            }, 600);
+        }
+
+        function setHubbyPhoneNumber() {
+            const current = HUBBY_PHONE || "91";
+            const num = prompt("Apna WhatsApp number enter karein with country code (e.g. 919876543210):", current);
+            if (num) {
+                HUBBY_PHONE = num.replace(/[^0-9]/g, '');
+                localStorage.setItem('hubby_phone_number', HUBBY_PHONE);
+                alert("Hubby WhatsApp Number Set: +" + HUBBY_PHONE + " ✅");
+            }
+        }
+
+        function viewHubbyBillModal() {
+            const note = localStorage.getItem('wife_love_note') || "Koi note nahi likha abhi.";
+            const count = claimedCoupons.length;
+            const list = count > 0 ? claimedCoupons.map((c, i) => `${i + 1}. ${c}`).join('\n') : "Koi coupon redeem nahi kiya.";
+            alert(`📋 HUBBY PUKKAA BILL & RECORD 💖\n\n🎫 Claimed Coupons (${count}):\n${list}\n\n💌 Wife's Message:\n"${note}"`);
         }
 
         // ==========================================
@@ -1310,12 +1432,20 @@
         }
         animateBg();
 
-        // Check if there was a saved note from before
+        // Check if there was a saved note or coupons from before
         window.addEventListener('DOMContentLoaded', () => {
             const saved = localStorage.getItem('wife_love_note');
             if (saved) {
                 const input = document.getElementById('wifeNoteInput');
                 if (input) input.value = saved;
+            }
+
+            const savedCoupons = localStorage.getItem('claimed_coupons_list');
+            if (savedCoupons) {
+                try {
+                    claimedCoupons = JSON.parse(savedCoupons);
+                    updateClaimedCouponsUI();
+                } catch(e) {}
             }
         });
     </script>
