@@ -1,0 +1,12 @@
+{
+  "name": "for-my-wifyji",
+  "version": "1.0.0",
+  "description": "Romantic apology website for my dear princess ji wifyji 👑💖",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": ["apology", "love", "romantic"],
+  "author": "Akshat Tarapra",
+  "license": "MIT"
+}

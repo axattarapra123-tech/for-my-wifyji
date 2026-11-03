@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#fff0f3">
+    <title>For My Dear Princess Ji 👑 Meri Pyari Wifyji Ke Liye 💖</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Great+Vibes&family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'rose-blush': '#fff0f3',
+                        'rose-primary': '#ff4d6d',
+                        'rose-deep': '#c9184a',
+                        'rose-soft': '#ff758f',
+                        'gold-accent': '#ffb703',
+                    },
+                    fontFamily: {
+                        romantic: ['"Great Vibes"', 'cursive'],
+                        hand: ['"Caveat"', 'cursive'],
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Nunito"', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'floating 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        floating: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        },
+                        glow: {
+                            'from': { boxShadow: '0 0 10px #ff758f, 0 0 20px #ff4d6d' },
+                            'to': { boxShadow: '0 0 25px #ff4d6d, 0 0 40px #c9184a' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar & glassmorphism */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fff0f3;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff758f;
+            border-radius: 999px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 200, 215, 0.6);
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .text-glow {
+            text-shadow: 0 0 15px rgba(255, 77, 109, 0.4);
+        }
+        /* Heart burst keyframe */
+        @keyframes heartPop {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .heart-pop {
+            animation: heartPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        /* Floating background canvas */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .card-flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        /* Mobile Touch & Haptic Optimizations */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        button, a, input, [role="button"] {
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        body {
+            padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-rose-50 via-pink-100 to-red-50 text-gray-800 font-sans min-h-screen relative selection:bg-rose-soft selection:text-white overflow-x-hidden">
+
+    <!-- Interactive Falling Hearts & Stars Canvas -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Ambient Music & Audio Controls Floating Pill -->
+    <div class="fixed top-3 right-3 sm:top-4 sm:right-4 z-50 flex items-center gap-1.5 sm:gap-2">
+        <button id="musicToggleBtn" onclick="toggleCuteMusic()" class="glass-card hover:bg-rose-500 hover:text-white transition-all duration-300 text-rose-600 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-lg flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-bold border border-rose-200 group active:scale-95">
+            <span id="musicIcon" class="text-base sm:text-lg animate-wiggle">🎵</span>
+            <span id="musicText" class="hidden xs:inline sm:inline">Play Sweet Music 🎶</span>
+        </button>
+        <button onclick="triggerConfettiExplosion()" class="glass-card hover:bg-rose-500 hover:text-white transition-all duration-300 text-rose-600 p-2 sm:p-2.5 rounded-full shadow-lg border border-rose-200 active:scale-95" title="Shower of Love">
+            <span class="text-base sm:text-lg">💖</span>
+        </button>
+    </div>
+
+    <!-- Top Announcement Banner -->
+    <div class="relative z-10 bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 text-white text-[11px] sm:text-sm py-2 px-3 sm:px-4 text-center font-bold tracking-wide shadow-md flex items-center justify-center gap-1.5 sm:gap-2">
+        <span class="animate-bounce">👑</span>
+        <span>A Special Message For: <b class="underline decoration-wavy decoration-yellow-300">My Dear Princess Ji</b> • My Baccha • My Sweetu Heart • My Bavv 💕</span>
+        <span class="animate-bounce">👑</span>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header class="relative z-20 max-w-5xl mx-auto pt-4 sm:pt-6 px-3 sm:px-4">
+        <div class="text-center space-y-2">
+            <div class="inline-flex items-center gap-1.5 sm:gap-2 bg-rose-100/90 border border-rose-300/80 text-rose-700 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-sm font-bold shadow-sm animate-pulse-slow">
+                <span>🥺 Merii Galti Thi Meri Jaan 🥺</span>
+                <span>•</span>
+                <span>Plz Ek Baar Maan Jao Na 🌸</span>
+            </div>
+            <h1 class="font-romantic text-4xl xs:text-5xl sm:text-7xl md:text-8xl text-rose-deep text-glow drop-shadow-sm pt-1 sm:pt-2 leading-tight">
+                I Am Really Sorry, My Princess Ji 👑
+            </h1>
+            <p class="font-hand text-xl sm:text-3xl text-rose-soft font-bold tracking-wide">
+                "Duniya ki saari khushiyan ek taraf, aur meri chotu baby ki pyari si smile ek taraf..." ✨🥰
+            </p>
+        </div>
+
+        <!-- Multi-page / Section Tabs Navigation (Mobile App-style 2x2 grid on phones, flex on desktop) -->
+        <nav class="mt-6 sm:mt-8 flex justify-center w-full">
+            <div class="glass-nav p-1.5 rounded-2xl shadow-xl border border-rose-200/80 grid grid-cols-2 sm:flex sm:flex-wrap gap-1.5 justify-center w-full max-w-lg sm:max-w-none">
+                <button onclick="switchTab('letter')" id="tab-letter" class="tab-btn active px-3 sm:px-6 py-2.5 rounded-xl font-bold text-xs sm:text-base transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 bg-gradient-to-r from-rose-500 to-rose-600 text-white shadow-md active:scale-95">
+                    <span>💌</span>
+                    <span>Dil Ki Baat (Sorry)</span>
+                </button>
+                <button onclick="switchTab('reasons')" id="tab-reasons" class="tab-btn px-3 sm:px-6 py-2.5 rounded-xl font-bold text-xs sm:text-base transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 text-rose-700 hover:bg-rose-100/70 active:scale-95">
+                    <span>🧸</span>
+                    <span>Why I Love My Bavv</span>
+                </button>
+                <button onclick="switchTab('coupons')" id="tab-coupons" class="tab-btn px-3 sm:px-6 py-2.5 rounded-xl font-bold text-xs sm:text-base transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 text-rose-700 hover:bg-rose-100/70 active:scale-95">
+                    <span>🤞</span>
+                    <span>Husband Promises</span>
+                </button>
+                <button onclick="switchTab('forgive')" id="tab-forgive" class="tab-btn px-3 sm:px-6 py-2.5 rounded-xl font-bold text-xs sm:text-base transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 text-rose-700 hover:bg-rose-100/70 animate-pulse-slow active:scale-95">
+                    <span>🥺</span>
+                    <span>Maan Jao Please?</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="relative z-10 max-w-4xl mx-auto px-4 mt-8">
+
+        <!-- ============================================== -->
+        <!-- TAB 1: DIL KI BAAT (HEARTFELT APOLOGY LETTER) -->
+        <!-- ============================================== -->
+        <section id="content-letter" class="tab-content block space-y-8 animate-fade-in">
+            
+            <!-- Apology Teddy Box with Interactive Healing Heart -->
+            <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden border-2 border-rose-200">
+                <div class="absolute -top-10 -right-10 w-44 h-44 bg-rose-200/50 rounded-full blur-2xl"></div>
+                <div class="absolute -bottom-10 -left-10 w-44 h-44 bg-pink-200/50 rounded-full blur-2xl"></div>
+
+                <!-- Cute Mascot Card -->
+                <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 pb-8 border-b border-rose-100">
+                    <div class="relative group cursor-pointer" onclick="healHeartAnimation()">
+                        <div class="w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-tr from-pink-200 via-rose-100 to-rose-200 rounded-full flex items-center justify-center shadow-inner relative border-4 border-white">
+                            <!-- Cute Animated Character Emojis -->
+                            <div class="text-6xl sm:text-7xl animate-float select-none">
+                                🥺🧸
+                            </div>
+                            <!-- Broken heart that heals -->
+                            <div id="teddyHeart" class="absolute -bottom-2 -right-2 text-3xl sm:text-4xl bg-white p-2 rounded-full shadow-lg border border-rose-200 transition-all duration-500 transform hover:scale-125">
+                                💔
+                            </div>
+                        </div>
+                        <span class="block text-center text-xs font-bold text-rose-500 mt-2 hover:underline">
+                            (Tap to heal hubby's heart ❤️‍🩹)
+                        </span>
+                    </div>
+
+                    <div class="space-y-3 text-center sm:text-left flex-1">
+                        <div class="inline-flex items-center gap-2 bg-pink-100 text-rose-700 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider">
+                            <span>💍 Meri Pyari Wifyji Ke Naam</span>
+                        </div>
+                        <h2 class="font-serif text-2xl sm:text-3xl text-rose-deep font-bold leading-tight">
+                            "Mera Bachha, Mujhse Sach Me Boht Badi Galti Ho Gayi..." 🥺🙏
+                        </h2>
+                        <p class="text-rose-700/90 font-medium text-sm sm:text-base leading-relaxed">
+                            Jabse meri <b class="text-rose-600 font-black">Princess Ji</b> naraz hui hai na, sach bol raha hu mera dil kisi bhi cheez me nahi lag raha. Na khana achha lag raha hai, na neend aa rahi hai. Aapka gussa bilkul sahi hai, par aapke bina ye silly husband bilkul adhura hai... 🥺💔
+                        </p>
+                    </div>
+                </div>
+
+                <!-- The Deep Love Letter -->
+                <div class="pt-8 space-y-6">
+                    <div class="flex items-center justify-between border-b border-rose-200 pb-3">
+                        <span class="font-hand text-2xl sm:text-3xl font-bold text-rose-deep flex items-center gap-2">
+                            <span>💌</span> Secret Letter Just For My Bavv
+                        </span>
+                        <span class="text-xs font-bold text-rose-400 bg-rose-50 px-3 py-1 rounded-full">
+                            Written with 10,00,000% True Love 💕
+                        </span>
+                    </div>
+
+                    <div class="space-y-4 text-gray-700 leading-relaxed text-base sm:text-lg font-normal bg-rose-50/50 p-6 sm:p-8 rounded-2xl border border-rose-100 shadow-sm relative">
+                        <p>
+                            <span class="font-romantic text-3xl sm:text-4xl text-rose-deep block mb-1">Dearest Cutiepie,</span>
+                            Sabse pehle to main apne dono kaan pakad ke, pure dil se, haath jod kar sorry bolta hu... 🙇‍♂️🥺 <br>
+                            Mera irada aapko dukh pahuchane ka 1% bhi nahi tha <b class="text-rose-600">my sweetu heart</b>. Kabhi-kabhi main silly harkat kar deta hu, par meri jaan, mera pyaar aapke liye kabhi kam nahi ho sakta!
+                        </p>
+
+                        <p>
+                            Aap to meri <b class="text-rose-600">chotu baby</b> ho na? Aur bache to dil ke boht saaf hote hain... to kya aap apne is pagal husband ko maaf nahi karoge? 🥺👉👈 Jab aap smile karti ho na <b class="text-rose-600">my baccha</b>, to pura ghar roshan ho jata hai. Aur jab aap udas hoti ho, to lagta hai meri puri duniya hi rukk gayi hai.
+                        </p>
+
+                        <p>
+                            Maine aapse wada kiya tha na ki main aapke chehre par kabhi aansu nahi aane dunga? Aaj meri wajah se aapka mood kharab hua, is baat ka mujhe sach me boht afsos hai. Please apne is pagal ko ek pyaari si smile de do na meri <b class="text-rose-600">dear princess ji</b>... 🌸✨
+                        </p>
+
+                        <div class="pt-4 border-t border-rose-200/70 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div>
+                                <p class="font-hand text-2xl text-rose-deep font-bold">Aapka Apna Pagal Husband, Forever & Always 💍❤️</p>
+                                <p class="text-xs text-rose-500 font-semibold">Sirf aur sirf aapka, Meri Bavv 🥰</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl animate-bounce">💋</span>
+                                <span class="text-2xl animate-bounce" style="animation-delay: 0.2s">🫂</span>
+                                <span class="text-2xl animate-bounce" style="animation-delay: 0.4s">🍫</span>
+                                <span class="text-2xl animate-bounce" style="animation-delay: 0.6s">💖</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Hug & Kiss Machine -->
+                    <div class="bg-gradient-to-r from-pink-500 via-rose-500 to-red-400 rounded-2xl p-6 text-white text-center shadow-lg relative overflow-hidden">
+                        <div class="relative z-10 space-y-3">
+                            <h3 class="font-bold text-lg sm:text-xl flex items-center justify-center gap-2">
+                                <span>🫂</span> Emergency Virtual Hugs & Kisses Dispenser <span>💋</span>
+                            </h3>
+                            <p class="text-xs sm:text-sm text-pink-100 max-w-lg mx-auto">
+                                Jitni bar gussa ho, utni bar dabao! Unlimited tight hugs & soft forehead kisses guaranteed for my chotu baby!
+                            </p>
+                            <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+                                <button onclick="sendVirtualHug()" class="bg-white text-rose-600 hover:bg-rose-50 active:scale-95 transition font-extrabold px-6 py-3 rounded-full shadow-lg flex items-center gap-2 text-sm sm:text-base">
+                                    <span>🤗</span> <span>Send Tight Hug To My Bavv</span>
+                                </button>
+                                <button onclick="sendVirtualKiss()" class="bg-rose-900/40 border border-white/60 hover:bg-rose-900/60 active:scale-95 transition text-white font-extrabold px-6 py-3 rounded-full shadow-lg flex items-center gap-2 text-sm sm:text-base">
+                                    <span>💋</span> <span>1000 Kisses For Princess Ji</span>
+                                </button>
+                            </div>
+                            <div id="hugCounterText" class="text-xs font-bold text-pink-100 pt-2 h-6">
+                                Total Love Delivered: <span id="hugCount" class="font-black text-yellow-300 text-sm">1,080</span> Hugs & Kisses Sent! 🌸
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Sweet Next Page Callout -->
+            <div class="text-center pt-2">
+                <button onclick="switchTab('reasons')" class="bg-white/80 hover:bg-white text-rose-600 hover:text-rose-700 border-2 border-rose-300 font-bold px-8 py-3.5 rounded-full shadow-md transition-all transform hover:-translate-y-1 inline-flex items-center gap-3">
+                    <span>Aage Dekho Kyu Aap Itni Special Ho 🧸✨</span>
+                    <span class="text-xl">👉</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 2: WHY I LOVE MY BAVV (REASONS & MEMORIES) -->
+        <!-- ============================================== -->
+        <section id="content-reasons" class="tab-content hidden space-y-8 animate-fade-in">
+            <div class="text-center space-y-2">
+                <div class="inline-block bg-pink-100 text-rose-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-rose-200">
+                    👑 Reasons Why You Own My Heart
+                </div>
+                <h2 class="font-serif text-3xl sm:text-4xl text-rose-deep font-bold">
+                    Kyu Meri Sweetu Heart Sabse Pyaari Hai? 🥰✨
+                </h2>
+                <p class="text-rose-600 text-sm sm:text-base font-medium max-w-xl mx-auto">
+                    Aise to 100 crore reasons hain, par ye kuch choti-choti baatein hain jo meri cutiepie ko is duniya me sabse alag banati hain:
+                </p>
+            </div>
+
+            <!-- Grid of Interactive Love Cards (Click to Flip / Glow) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                
+                <!-- Card 1 -->
+                <div class="glass-card rounded-2xl p-5 border border-rose-200/80 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 space-y-3 group bg-gradient-to-b from-white to-rose-50/70">
+                    <div class="w-12 h-12 rounded-xl bg-pink-100 text-rose-600 flex items-center justify-center text-2xl group-hover:scale-110 transition shadow-sm">
+                        🌸
+                    </div>
+                    <h3 class="font-bold text-rose-deep text-lg flex items-center gap-1.5">
+                        <span>Aapki Wo Pyaari Smile</span>
+                    </h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Jab meri <b class="text-rose-500">princess ji</b> bina kisi baat ke muskura deti hai na, to lagta hai pure sansar ki thakan ek pal me gayab ho gayi!
+                    </p>
+                    <div class="text-xs text-rose-400 font-semibold pt-1 border-t border-rose-100 flex items-center justify-between">
+                        <span>Smile Meter: 1000/10 💖</span>
+                        <span>✨ Sweetest</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-card rounded-2xl p-5 border border-rose-200/80 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 space-y-3 group bg-gradient-to-b from-white to-pink-50/70">
+                    <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl group-hover:scale-110 transition shadow-sm">
+                        🥺
+                    </div>
+                    <h3 class="font-bold text-rose-deep text-lg flex items-center gap-1.5">
+                        <span>Chotu Baby Nakhre</span>
+                    </h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Jab meri <b class="text-rose-500">chotu baby</b> choti-choti baaton par pout banati hai, sach bolu to gussa kam aur itna pyaar aata hai ki mann karta hai bas dekhta rahu!
+                    </p>
+                    <div class="text-xs text-rose-400 font-semibold pt-1 border-t border-rose-100 flex items-center justify-between">
+                        <span>Cuteness Level: Infinity 🧸</span>
+                        <span>🌸 My Bavv</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-card rounded-2xl p-5 border border-rose-200/80 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 space-y-3 group bg-gradient-to-b from-white to-rose-50/70">
+                    <div class="w-12 h-12 rounded-xl bg-yellow-100 text-yellow-600 flex items-center justify-center text-2xl group-hover:scale-110 transition shadow-sm">
+                        👑
+                    </div>
+                    <h3 class="font-bold text-rose-deep text-lg flex items-center gap-1.5">
+                        <span>The Queen of My Life</span>
+                    </h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Aap sirf meri wifyji nahi ho, aap mere dil aur meri zindagi ki sachi <b class="text-rose-500">Dear Princess Ji</b> ho. Aapka hukum sar-aankhon par!
+                    </p>
+                    <div class="text-xs text-rose-400 font-semibold pt-1 border-t border-rose-100 flex items-center justify-between">
+                        <span>My Forever Queen 💍</span>
+                        <span>👑 Royal Love</span>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="glass-card rounded-2xl p-5 border border-rose-200/80 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 space-y-3 group bg-gradient-to-b from-white to-pink-50/70">
+                    <div class="w-12 h-12 rounded-xl bg-red-100 text-rose-600 flex items-center justify-center text-2xl group-hover:scale-110 transition shadow-sm">
+                        🍲
+                    </div>
+                    <h3 class="font-bold text-rose-deep text-lg flex items-center gap-1.5">
+                        <span>Maa Jaisa Care Karna</span>
+                    </h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        "Khana khaya?", "Dawai li?", "Time pe sona!". Meri <b class="text-rose-500">my sweetu heart</b> jab aise chinta karti hai na, to lagta hai duniya ka sabse lucky insan main hu.
+                    </p>
+                    <div class="text-xs text-rose-400 font-semibold pt-1 border-t border-rose-100 flex items-center justify-between">
+                        <span>Purest Heart Ever 🕊️</span>
+                        <span>❤️ Caring Soul</span>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="glass-card rounded-2xl p-5 border border-rose-200/80 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 space-y-3 group bg-gradient-to-b from-white to-rose-50/70">
+                    <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition shadow-sm">
+                        🏡
+                    </div>
+                    <h3 class="font-bold text-rose-deep text-lg flex items-center gap-1.5">
+                        <span>My Home & Safe Space</span>
+                    </h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Bahari duniya chahe kitni bhi stressful kyu na ho, par jab main <b class="text-rose-500">my baccha</b> ke paas hota hu, to lagta hai ab koi darr nahi hai.
+                    </p>
+                    <div class="text-xs text-rose-400 font-semibold pt-1 border-t border-rose-100 flex items-center justify-between">
+                        <span>Peace & Comfort 🌸</span>
+                        <span>🏡 Sukoon</span>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="glass-card rounded-2xl p-5 border border-rose-200/80 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 space-y-3 group bg-gradient-to-b from-white to-pink-50/70">
+                    <div class="w-12 h-12 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center text-2xl group-hover:scale-110 transition shadow-sm">
+                        💍
+                    </div>
+                    <h3 class="font-bold text-rose-deep text-lg flex items-center gap-1.5">
+                        <span>Har Janam Me Sirf Aap</span>
+                    </h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Bhagwan se agar 7 janam me se har ek janam mangna pade, to main har janam me sirf aur sirf meri yehi <b class="text-rose-500">pyari wifyji</b> mangunga!
+                    </p>
+                    <div class="text-xs text-rose-400 font-semibold pt-1 border-t border-rose-100 flex items-center justify-between">
+                        <span>Forever & Beyond ♾️</span>
+                        <span>💍 Pukkaa Promise</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Interactive Love Note Generator -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-dashed border-rose-300 text-center space-y-4 shadow-lg">
+                <span class="text-4xl animate-bounce inline-block">💌✨</span>
+                <h3 class="font-serif text-2xl text-rose-deep font-bold">
+                    Tap Below For A Random Secret Love Note For My Princess Ji!
+                </h3>
+                <div id="randomLoveNoteBox" class="min-h-[70px] flex items-center justify-center p-4 bg-rose-50/80 rounded-2xl border border-rose-200 font-hand text-2xl sm:text-3xl text-rose-700 font-bold transition-all duration-300">
+                    "Aapki ek smile ke liye main 100 bar sorry bolne ko taiyar hu meri jaan! 🥺💖"
+                </div>
+                <button onclick="generateRandomNote()" class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-extrabold px-6 py-3 rounded-full shadow-lg transition active:scale-95 inline-flex items-center gap-2">
+                    <span>✨ Give Me Another Reason, Hubby! ✨</span>
+                </button>
+            </div>
+
+            <!-- Cute Photo / Memory Polaroid Frames Showcase -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-rose-200 shadow-xl space-y-6">
+                <div class="text-center space-y-1">
+                    <span class="text-xs font-bold text-rose-500 uppercase tracking-widest">📸 Sweet Memories Booth</span>
+                    <h3 class="font-serif text-2xl text-rose-deep font-bold">Our Cute Little Moments 🌸🧸</h3>
+                    <p class="text-xs sm:text-sm text-gray-500">Every picture with you is a lifetime memory, my chotu baby!</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-2">
+                    <!-- Polaroid 1 -->
+                    <div class="bg-white p-4 rounded-xl shadow-lg border border-rose-100 transform -rotate-2 hover:rotate-0 transition duration-300">
+                        <div class="w-full h-44 bg-gradient-to-tr from-rose-200 via-pink-100 to-rose-300 rounded-lg flex flex-col items-center justify-center text-center p-4 relative overflow-hidden">
+                            <span class="text-5xl mb-2 animate-pulse">👩‍❤️‍👨</span>
+                            <span class="font-hand text-xl text-rose-800 font-bold">"Jab pehli bar dekha tha..."</span>
+                            <span class="text-xs text-rose-600">Tabhi pata chal gaya tha yehi meri princess hai! 👑</span>
+                        </div>
+                        <div class="pt-3 text-center">
+                            <p class="font-hand text-lg text-gray-700 font-bold">The Day My Life Changed 💖</p>
+                        </div>
+                    </div>
+
+                    <!-- Polaroid 2 -->
+                    <div class="bg-white p-4 rounded-xl shadow-lg border border-rose-100 transform rotate-2 hover:rotate-0 transition duration-300">
+                        <div class="w-full h-44 bg-gradient-to-tr from-pink-200 via-rose-100 to-purple-200 rounded-lg flex flex-col items-center justify-center text-center p-4 relative overflow-hidden">
+                            <span class="text-5xl mb-2 animate-bounce">💍✨</span>
+                            <span class="font-hand text-xl text-rose-800 font-bold">"Hamesha ke liye ek duje ke"</span>
+                            <span class="text-xs text-rose-600">Meri pyari wifyji bann gayi meri jaan!</span>
+                        </div>
+                        <div class="pt-3 text-center">
+                            <p class="font-hand text-lg text-gray-700 font-bold">Best Decision Ever 🥰</p>
+                        </div>
+                    </div>
+
+                    <!-- Polaroid 3 -->
+                    <div class="bg-white p-4 rounded-xl shadow-lg border border-rose-100 transform -rotate-1 hover:rotate-0 transition duration-300">
+                        <div class="w-full h-44 bg-gradient-to-tr from-amber-100 via-rose-100 to-pink-200 rounded-lg flex flex-col items-center justify-center text-center p-4 relative overflow-hidden">
+                            <span class="text-5xl mb-2 animate-wiggle">🍰🧁</span>
+                            <span class="font-hand text-xl text-rose-800 font-bold">"Late Night Ice-Creams"</span>
+                            <span class="text-xs text-rose-600">Aur choti baby ke pyare pouts! 🍨</span>
+                        </div>
+                        <div class="pt-3 text-center">
+                            <p class="font-hand text-lg text-gray-700 font-bold">Sweetest Dates with My Bavv 🌸</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next button -->
+            <div class="text-center pt-2">
+                <button onclick="switchTab('coupons')" class="bg-white/80 hover:bg-white text-rose-600 hover:text-rose-700 border-2 border-rose-300 font-bold px-8 py-3.5 rounded-full shadow-md transition-all transform hover:-translate-y-1 inline-flex items-center gap-3">
+                    <span>Dekho Hubby Ke Pukkaa Promises & Coupons 📜🤞</span>
+                    <span class="text-xl">👉</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 3: HUSBAND PROMISES & LOVE COUPONS        -->
+        <!-- ============================================== -->
+        <section id="content-coupons" class="tab-content hidden space-y-8 animate-fade-in">
+            <div class="text-center space-y-2">
+                <div class="inline-block bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-yellow-300">
+                    📜 Official Pukkaa Promises By Silly Husband
+                </div>
+                <h2 class="font-serif text-3xl sm:text-4xl text-rose-deep font-bold">
+                    Lifetime Husband Love Coupons 🎫✨
+                </h2>
+                <p class="text-rose-600 text-sm sm:text-base font-medium max-w-xl mx-auto">
+                    Aap jab chahe in coupons ko redeem kar sakti ho! Husband will have ZERO right to say NO! Sab 100% valid hain! 🤞💖
+                </p>
+            </div>
+
+            <!-- Coupons Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Coupon 1 -->
+                <div class="coupon-card glass-card rounded-2xl p-5 border-2 border-dashed border-rose-300 relative overflow-hidden shadow-lg transition-all hover:scale-[1.02]">
+                    <div class="flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="bg-rose-100 text-rose-700 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full">
+                                Unlimited Validity • 24/7
+                            </span>
+                            <h3 class="font-bold text-lg text-rose-deep flex items-center gap-2 pt-1">
+                                <span>🍫</span> Unlimited Chocolates & Ice Cream
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed pr-2">
+                                Anytime my chotu baby wants sweet treat or craving at 2 AM, silly hubby will run and bring it instantly without complaining!
+                            </p>
+                        </div>
+                        <span class="text-3xl">🍨</span>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-rose-100 flex items-center justify-between">
+                        <span class="text-[11px] text-gray-400 font-mono">CODE: SWEET-BAVV-01</span>
+                        <button onclick="redeemCoupon(this, 'Unlimited Chocolates & Ice Cream 🍫')" class="redeem-btn bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow transition active:scale-95">
+                            Redeem Now ✨
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Coupon 2 -->
+                <div class="coupon-card glass-card rounded-2xl p-5 border-2 border-dashed border-pink-300 relative overflow-hidden shadow-lg transition-all hover:scale-[1.02]">
+                    <div class="flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="bg-pink-100 text-pink-700 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full">
+                                Premium Relaxation
+                            </span>
+                            <h3 class="font-bold text-lg text-rose-deep flex items-center gap-2 pt-1">
+                                <span>💆‍♀️</span> 1-Hour Royal Head & Foot Massage
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed pr-2">
+                                Jab bhi my dear princess ji thak jayein, hubby will give full salon style gentle champi aur foot massage with loving care!
+                            </p>
+                        </div>
+                        <span class="text-3xl">🌸</span>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-rose-100 flex items-center justify-between">
+                        <span class="text-[11px] text-gray-400 font-mono">CODE: PRINCESS-MASSAGE-02</span>
+                        <button onclick="redeemCoupon(this, '1-Hour Royal Massage 💆‍♀️')" class="redeem-btn bg-pink-500 hover:bg-pink-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow transition active:scale-95">
+                            Redeem Now ✨
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Coupon 3 -->
+                <div class="coupon-card glass-card rounded-2xl p-5 border-2 border-dashed border-purple-300 relative overflow-hidden shadow-lg transition-all hover:scale-[1.02]">
+                    <div class="flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="bg-purple-100 text-purple-700 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full">
+                                100% Silence Guaranteed
+                            </span>
+                            <h3 class="font-bold text-lg text-rose-deep flex items-center gap-2 pt-1">
+                                <span>🤫</span> "Husband Listens Quietly" Card
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed pr-2">
+                                Show this card, and hubby will ZIP his mouth and simply listen to whatever my sweetu heart wants to vent or share! No arguments!
+                            </p>
+                        </div>
+                        <span class="text-3xl">👂</span>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-rose-100 flex items-center justify-between">
+                        <span class="text-[11px] text-gray-400 font-mono">CODE: ZERO-ARGUMENT-03</span>
+                        <button onclick="redeemCoupon(this, 'Silence & Deep Listening Card 🤫')" class="redeem-btn bg-purple-500 hover:bg-purple-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow transition active:scale-95">
+                            Redeem Now ✨
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Coupon 4 -->
+                <div class="coupon-card glass-card rounded-2xl p-5 border-2 border-dashed border-amber-300 relative overflow-hidden shadow-lg transition-all hover:scale-[1.02]">
+                    <div class="flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full">
+                                Princess Treatment
+                            </span>
+                            <h3 class="font-bold text-lg text-rose-deep flex items-center gap-2 pt-1">
+                                <span>🛍️</span> Unlimited Shopping Spree Card
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed pr-2">
+                                Full day shopping! Hubby will hold all shopping bags happily, give genuine fashion feedback, and pay with a big smiling face!
+                            </p>
+                        </div>
+                        <span class="text-3xl">👗</span>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-rose-100 flex items-center justify-between">
+                        <span class="text-[11px] text-gray-400 font-mono">CODE: QUEEN-SHOPPING-04</span>
+                        <button onclick="redeemCoupon(this, 'Unlimited Shopping Spree 🛍️')" class="redeem-btn bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow transition active:scale-95">
+                            Redeem Now ✨
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Coupon 5 -->
+                <div class="coupon-card glass-card rounded-2xl p-5 border-2 border-dashed border-red-300 relative overflow-hidden shadow-lg transition-all hover:scale-[1.02]">
+                    <div class="flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="bg-red-100 text-red-700 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full">
+                                Special Chef Hubby
+                            </span>
+                            <h3 class="font-bold text-lg text-rose-deep flex items-center gap-2 pt-1">
+                                <span>🍳</span> Delicious Food Cooked By Hubby
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed pr-2">
+                                Princess ji will sit on the couch like a queen, and hubby will prepare favorite snacks, tea, or dinner and feed with his own hands!
+                            </p>
+                        </div>
+                        <span class="text-3xl">🥪</span>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-rose-100 flex items-center justify-between">
+                        <span class="text-[11px] text-gray-400 font-mono">CODE: MASTERCHEF-HUBBY-05</span>
+                        <button onclick="redeemCoupon(this, 'Chef Hubby Cooking Feast 🍳')" class="redeem-btn bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow transition active:scale-95">
+                            Redeem Now ✨
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Coupon 6 -->
+                <div class="coupon-card glass-card rounded-2xl p-5 border-2 border-dashed border-rose-400 relative overflow-hidden shadow-lg transition-all hover:scale-[1.02]">
+                    <div class="flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="bg-rose-100 text-rose-700 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full">
+                                Warmest Comfort
+                            </span>
+                            <h3 class="font-bold text-lg text-rose-deep flex items-center gap-2 pt-1">
+                                <span>🫂</span> Infinite Cuddles & Forehead Kisses
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed pr-2">
+                                Whenever my baccha feels low or needs warmth, redeem for 100% tight cozy cuddles, blanket burrito, and endless forehead kisses!
+                            </p>
+                        </div>
+                        <span class="text-3xl">🧸</span>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-rose-100 flex items-center justify-between">
+                        <span class="text-[11px] text-gray-400 font-mono">CODE: COZY-CUDDLES-06</span>
+                        <button onclick="redeemCoupon(this, 'Infinite Cuddles & Kisses 🫂')" class="redeem-btn bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow transition active:scale-95">
+                            Redeem Now ✨
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Hubby 5 Pukkaa Vows Card -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-rose-300 shadow-xl space-y-4 bg-gradient-to-br from-rose-50/90 to-pink-50/90">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">🤞❤️</span>
+                    <h3 class="font-serif text-2xl text-rose-deep font-bold">5 Sincere Husband Vows (Mera Pukkaa Promise)</h3>
+                </div>
+                <ul class="space-y-3 text-sm sm:text-base text-gray-700 font-medium">
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-rose-500 font-black">1.</span>
+                        <span><b>No Repeat Mistake:</b> Jis baat se meri princess ko bura laga, wo galti dobara kabhi repeat nahi hogi.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-rose-500 font-black">2.</span>
+                        <span><b>Listening First:</b> Pehle meri pyari wifyji ki baat dhyan se sununga, fir bolunga!</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-rose-500 font-black">3.</span>
+                        <span><b>Always Pamper:</b> Meri bavv ko hamesha duniya ki sabse khush ladki bana kar rakhunga!</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-rose-500 font-black">4.</span>
+                        <span><b>Never Sleep Angry:</b> Chahe kitni bhi ladai ho, raat ko bina hug kiye aur bina sorry bole nahi sounga!</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-rose-500 font-black">5.</span>
+                        <span><b>Forever Devoted:</b> Meri jaan, mera dil, meri rooh sirf aur sirf aapki thi, hai aur hamesha rahegi! 💍</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Next button -->
+            <div class="text-center pt-2">
+                <button onclick="switchTab('forgive')" class="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-extrabold px-8 py-4 rounded-full shadow-lg transition-all transform hover:-translate-y-1 inline-flex items-center gap-3 text-base sm:text-lg animate-pulse-slow">
+                    <span>Ab To Maan Jao Na Meri Sweetu Heart? 🥺👉👈</span>
+                    <span class="text-2xl">💍</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 4: THE GRAND FORGIVENESS QUESTION         -->
+        <!-- ============================================== -->
+        <section id="content-forgive" class="tab-content hidden space-y-8 animate-fade-in">
+            
+            <div class="glass-card rounded-3xl p-6 sm:p-12 shadow-2xl border-2 border-rose-300 text-center space-y-6 relative overflow-hidden">
+                <div class="absolute -top-12 -left-12 w-48 h-48 bg-rose-200/50 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-12 -right-12 w-48 h-48 bg-pink-300/50 rounded-full blur-3xl"></div>
+
+                <!-- Mascot pleading -->
+                <div class="inline-block relative">
+                    <div id="forgiveMascot" class="text-7xl sm:text-8xl animate-bounce select-none">
+                        🥺👉👈
+                    </div>
+                    <div class="text-xs font-bold text-rose-500 mt-2 bg-pink-100 px-4 py-1 rounded-full border border-rose-200">
+                        "Dekho kaan pakad ke khada hu..." 🙇‍♂️
+                    </div>
+                </div>
+
+                <div class="space-y-2 max-w-xl mx-auto">
+                    <h2 class="font-serif text-3xl sm:text-5xl text-rose-deep font-extrabold leading-tight">
+                        Will You Forgive Your Silly Husband, My Princess Ji? 👑🥺
+                    </h2>
+                    <p class="text-rose-700 font-semibold text-base sm:text-lg">
+                        Maan jao na <b class="text-rose-600 underline">my baccha</b>... Aapki pyari si smile ke bina ye din kitna soona lag raha hai! 💕
+                    </p>
+                </div>
+
+                <!-- Interactive Anger to Love Slider -->
+                <div class="max-w-md mx-auto bg-rose-50 p-5 rounded-2xl border border-rose-200 space-y-3">
+                    <div class="flex justify-between text-xs font-extrabold text-rose-700">
+                        <span>😡 Gussa: <span id="angerVal">10%</span></span>
+                        <span>💖 Pyaar: <span id="loveVal">990%</span></span>
+                    </div>
+                    <input type="range" id="moodSlider" min="0" max="100" value="95" oninput="updateMood(this.value)" class="w-full h-3 bg-gradient-to-r from-red-400 via-pink-400 to-rose-500 rounded-lg appearance-none cursor-pointer accent-rose-600">
+                    <p id="moodQuote" class="font-hand text-xl text-rose-600 font-bold">
+                        "Pyaar to hamesha se 1000% hi hai meri bavv ke liye! 🥰"
+                    </p>
+                </div>
+
+                <!-- The Interactive Decision Buttons (YES explodes, NO runs away!) -->
+                <div class="relative min-h-[160px] flex flex-col sm:flex-row items-center justify-center gap-6 pt-4">
+                    
+                    <!-- BIG GLOWING YES BUTTON -->
+                    <button id="yesBtn" onclick="celebrateForgiveness()" class="bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white font-black text-lg sm:text-2xl px-8 sm:px-12 py-4 sm:py-5 rounded-full shadow-2xl transform hover:scale-110 active:scale-95 transition-all duration-300 flex items-center gap-3 border-4 border-white/80 animate-glow">
+                        <span>🥰 YES, Maan Gayi! 💖</span>
+                    </button>
+
+                    <!-- PLAYFUL RUNAWAY NO BUTTON -->
+                    <button id="noBtn" onmouseover="handleNoHover()" ontouchstart="handleNoTouch(event)" onclick="handleNoClick()" class="bg-gradient-to-r from-rose-400 to-red-400 text-white font-bold text-sm sm:text-base px-6 py-3.5 rounded-full shadow-md transition-all duration-300 flex items-center gap-2 border-2 border-white/50 select-none active:scale-95">
+                        <span id="noBtnText">No, Abhi Nahi 😠</span>
+                    </button>
+                </div>
+
+                <!-- Emotional cute plea text container -->
+                <div id="pleaText" class="min-h-[40px] text-sm sm:text-base font-bold text-rose-600 transition-all duration-300">
+                    (Tip: 'No' button dabane ka try kar ke dekh lo my chotu baby... 😜)
+                </div>
+
+            </div>
+
+            <!-- Custom Love Message Box for Her to Type Back -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-rose-200 shadow-xl space-y-4 text-center">
+                <span class="text-3xl">💬💌</span>
+                <h3 class="font-serif text-2xl text-rose-deep font-bold">
+                    Leave A Little Note For Your Silly Hubby!
+                </h3>
+                <p class="text-xs sm:text-sm text-gray-500 max-w-md mx-auto">
+                    Aapka koi bhi hukum, daant, ya pyaara sa message yahan likhiye:
+                </p>
+                <div class="max-w-lg mx-auto space-y-3">
+                    <textarea id="wifeNoteInput" rows="3" placeholder="Yahan likho meri princess ji... 'Theek he ab muskura rahi hu' ya fir 'Pehle ice cream khilao' 🍨🥺" class="w-full p-4 rounded-2xl border-2 border-rose-200 focus:outline-none focus:border-rose-500 bg-white/90 text-sm font-medium text-gray-700 shadow-inner resize-none"></textarea>
+                    <button onclick="saveWifeNote()" class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold px-6 py-2.5 rounded-full shadow-md transition active:scale-95 text-sm inline-flex items-center gap-2">
+                        <span>Save & Send Love To Hubby 💖</span>
+                    </button>
+                    <div id="wifeNoteFeedback" class="text-xs font-bold text-emerald-600 hidden">
+                        Aapka pyaara message save ho gaya! Hubby is jumping with joy! 🎉❤️
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ============================================== -->
+    <!-- FORGIVENESS CELEBRATION MODAL (POPUP)          -->
+    <!-- ============================================== -->
+    <div id="celebrationModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-gradient-to-br from-white via-rose-50 to-pink-100 rounded-3xl p-6 sm:p-10 max-w-lg w-full text-center space-y-6 shadow-2xl border-4 border-rose-300 transform scale-90 transition-transform duration-300 relative overflow-hidden" id="modalCard">
+            
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-yellow-200/50 rounded-full blur-xl"></div>
+            
+            <div class="text-6xl sm:text-7xl animate-bounce">
+                🎉💍👰‍♀️💖
+            </div>
+
+            <div class="space-y-2">
+                <span class="bg-rose-500 text-white text-xs font-extrabold uppercase px-4 py-1 rounded-full shadow">
+                    Official Love Proclamation 📜
+                </span>
+                <h3 class="font-serif text-3xl sm:text-4xl text-rose-deep font-black pt-2">
+                    YAAAAAY! Meri Princess Ji Maan Gayi! 🥳✨
+                </h3>
+                <p class="font-hand text-2xl sm:text-3xl text-rose-600 font-bold">
+                    "Thank You My Baccha, My Sweetu Heart, My Bavv!"
+                </p>
+            </div>
+
+            <div class="bg-white/80 p-5 rounded-2xl border border-rose-200 text-gray-700 text-sm leading-relaxed text-left space-y-2 shadow-sm font-medium">
+                <p class="flex items-center gap-2 text-rose-600 font-bold">
+                    <span>👑</span> Awarded to: <b>The Most Beautiful Princess in the World</b>
+                </p>
+                <p>
+                    Aapki ye ek muskaan mere liye duniya ki sabse badi daulat hai. Main hamesha aapko khush rakhne ki puri koshish karunga, meri pyari wifyji! Ab jaldi se apne silly hubby ko ek pyaara sa tight hug de do! 🫂🥰
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                <button onclick="triggerConfettiExplosion()" class="w-full sm:w-auto bg-gradient-to-r from-rose-500 to-pink-500 text-white font-extrabold px-6 py-3 rounded-full shadow-lg hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2 text-sm">
+                    <span>More Confetti! 🎊</span>
+                </button>
+                <button onclick="closeCelebrationModal()" class="w-full sm:w-auto bg-white border border-rose-300 text-rose-600 hover:bg-rose-50 font-bold px-6 py-3 rounded-full shadow transition text-sm">
+                    Back To Our Love Page 💕
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="relative z-10 text-center py-10 mt-16 text-rose-500/80 text-xs sm:text-sm font-medium space-y-2">
+        <p class="flex items-center justify-center gap-1.5 flex-wrap">
+            <span>Made with 1,000,000% Pure Love for</span>
+            <span class="font-bold text-rose-600 underline">My Dear Princess Ji</span>
+            <span>•</span>
+            <span class="font-bold text-rose-600">My Sweetu Heart</span>
+            <span>•</span>
+            <span class="font-bold text-rose-600">My Bavv</span>
+            <span>🧸💍</span>
+        </p>
+        <p class="text-gray-400 text-[11px]">
+            Forever & Always Your Silly Husband • All Rights Reserved for Cuddles & Kisses
+        </p>
+    </footer>
+
+    <!-- Interactive Logic Script -->
+    <script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+            // Show target
+            const target = document.getElementById('content-' + tabId);
+            if (target) {
+                target.classList.remove('hidden');
+                target.classList.add('block');
+            }
+
+            // Update tab button styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-gradient-to-r', 'from-rose-500', 'to-rose-600', 'text-white', 'shadow-md', 'active');
+                btn.classList.add('text-rose-700', 'hover:bg-rose-100/70');
+            });
+
+            const activeBtn = document.getElementById('tab-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-gradient-to-r', 'from-rose-500', 'to-rose-600', 'text-white', 'shadow-md', 'active');
+                activeBtn.classList.remove('text-rose-700', 'hover:bg-rose-100/70');
+            }
+
+            window.scrollTo({ top: 120, behavior: 'smooth' });
+            playChime(660, 0.1);
+        }
+
+        // Heart heal animation on Teddy
+        let heartHealed = false;
+        function healHeartAnimation() {
+            if (navigator.vibrate) navigator.vibrate(35);
+            const heart = document.getElementById('teddyHeart');
+            heartHealed = !heartHealed;
+            if (heartHealed) {
+                heart.innerHTML = '💖';
+                heart.classList.add('heart-pop');
+                confetti({
+                    particleCount: 40,
+                    spread: 60,
+                    origin: { y: 0.6 }
+                });
+                playChime(523.25, 0.2);
+            } else {
+                heart.innerHTML = '🥺';
+            }
+        }
+
+        // Virtual Hug & Kiss counter
+        let hugsSent = 1080;
+        function sendVirtualHug() {
+            if (navigator.vibrate) navigator.vibrate(25);
+            hugsSent += 5;
+            document.getElementById('hugCount').innerText = hugsSent.toLocaleString();
+            createFloatingEmoji('🤗');
+            createFloatingEmoji('🫂');
+            playChime(587.33, 0.15);
+            showBriefMessage("Tightest warm hug wrapped around my chotu baby! 🫂❤️");
+        }
+
+        function sendVirtualKiss() {
+            if (navigator.vibrate) navigator.vibrate(25);
+            hugsSent += 10;
+            document.getElementById('hugCount').innerText = hugsSent.toLocaleString();
+            createFloatingEmoji('💋');
+            createFloatingEmoji('🌸');
+            playChime(659.25, 0.15);
+            showBriefMessage("1000 gentle forehead kisses for my dear princess ji! 👑💋");
+        }
+
+        function showBriefMessage(msg) {
+            const el = document.getElementById('hugCounterText');
+            el.innerHTML = `<span class="text-yellow-200 font-extrabold animate-pulse">${msg}</span>`;
+            setTimeout(() => {
+                el.innerHTML = `Total Love Delivered: <span id="hugCount" class="font-black text-yellow-300 text-sm">${hugsSent.toLocaleString()}</span> Hugs & Kisses Sent! 🌸`;
+            }, 3000);
+        }
+
+        function createFloatingEmoji(emoji) {
+            const span = document.createElement('span');
+            span.innerText = emoji;
+            span.style.position = 'fixed';
+            span.style.left = (Math.random() * 80 + 10) + 'vw';
+            span.style.bottom = '10vh';
+            span.style.fontSize = (Math.random() * 20 + 24) + 'px';
+            span.style.zIndex = '999';
+            span.style.transition = 'all 2s ease-out';
+            span.style.pointerEvents = 'none';
+            document.body.appendChild(span);
+
+            setTimeout(() => {
+                span.style.transform = `translateY(-${Math.random() * 200 + 150}px) scale(1.5) rotate(${Math.random() * 40 - 20}deg)`;
+                span.style.opacity = '0';
+            }, 20);
+
+            setTimeout(() => {
+                span.remove();
+            }, 2100);
+        }
+
+        // Random Love Notes Deck
+        const loveNotes = [
+            "Aapki ek smile ke liye main 100 bar sorry bolne ko taiyar hu meri jaan! 🥺💖",
+            "My dear princess ji, aapke gusse me bhi itna pyaar hai ki mera dil pighal jata hai... 🥰🌸",
+            "Meri chotu baby ko duniya ki sabse khush wifyji banana meri life ka sabse bada mission hai! 💍✨",
+            "Mera baccha, chahe poori duniya naraz ho jaye, par aapka naraz hona bardasht nahi hota... 🥺💔",
+            "My sweetu heart, aap meri subah ki pehli soch aur raat ka aakhri khwab ho! 🌙🧁",
+            "My bavv, promise karta hu ki aage se aapko shikayat ka mauka nahi dunga! 🤞❤️",
+            "Aapki hasi hi mere din ka sabse sundar hissa hai, please ab smile kar do na cutiepie! 😊🌷",
+            "Husband pagal ho sakta hai, par uska pyaar 100000% pure aur sacha hai! 🥺🧸"
+        ];
+
+        function generateRandomNote() {
+            const random = loveNotes[Math.floor(Math.random() * loveNotes.length)];
+            const box = document.getElementById('randomLoveNoteBox');
+            box.style.opacity = '0';
+            box.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                box.innerText = `"${random}"`;
+                box.style.opacity = '1';
+                box.style.transform = 'scale(1)';
+            }, 200);
+            playChime(783.99, 0.15);
+        }
+
+        // Redeem Coupons
+        function redeemCoupon(btn, title) {
+            if (navigator.vibrate) navigator.vibrate([30, 40, 60]);
+            btn.disabled = true;
+            btn.innerText = "Redeemed with Love ❤️";
+            btn.classList.remove('bg-rose-500', 'bg-pink-500', 'bg-purple-500', 'bg-amber-500', 'bg-red-500', 'bg-rose-600');
+            btn.classList.add('bg-emerald-600', 'text-white', 'cursor-default');
+
+            confetti({
+                particleCount: 50,
+                spread: 70,
+                origin: { y: 0.7 }
+            });
+            playChime(880, 0.2);
+
+            const card = btn.closest('.coupon-card');
+            card.classList.add('border-emerald-400');
+            card.style.background = 'rgba(236, 253, 245, 0.9)';
+        }
+
+        // Mood slider
+        function updateMood(val) {
+            const anger = 100 - val;
+            document.getElementById('angerVal').innerText = anger + '%';
+            document.getElementById('loveVal').innerText = (val * 10) + '%';
+            const quote = document.getElementById('moodQuote');
+            if (val > 80) {
+                quote.innerText = '"Pyaar to hamesha se 1000% hi hai meri bavv ke liye! 🥰💖"';
+            } else if (val > 40) {
+                quote.innerText = '"Gussa thoda kam hua, ab bas ek hug ki deri hai my baccha! 🥺🌸"';
+            } else {
+                quote.innerText = '"Thoda gussa theek hai, par hubby ko boht bura lag raha hai... 🥺💔"';
+            }
+        }
+
+        // Playful runaway 'No' button logic
+        let noClicks = 0;
+        const pleaQuotes = [
+            "Arey please na my baccha, aise mat bolo... 🥺💔",
+            "Ek baar aur soch lo meri sweetu heart... Please? 🌸",
+            "Dher saari chocolates aur ice cream dunga pukkaa! 🍫🍨",
+            "Kaan pakad ke sorry bol raha hu my bavv! 👂🙇‍♂️",
+            "Meri chotu baby please maan jao na, rona aa jayega mujhe... 😭",
+            "Acha ab bas! 'No' button gayab hone wala hai, YES hi dabana padega! 😜💖"
+        ];
+
+        function handleNoHover() {
+            // Playful slight dodge if she tries to click
+            if (noClicks >= 2 && noClicks < 5) {
+                const noBtn = document.getElementById('noBtn');
+                const x = (Math.random() - 0.5) * 140;
+                const y = (Math.random() - 0.5) * 60;
+                noBtn.style.transform = `translate(${x}px, ${y}px)`;
+            }
+        }
+
+        function handleNoTouch(e) {
+            if (noClicks >= 2 && noClicks < 5) {
+                handleNoHover();
+            }
+        }
+
+        function handleNoClick() {
+            noClicks++;
+            if (navigator.vibrate) navigator.vibrate([40, 50, 40]);
+            const pleaText = document.getElementById('pleaText');
+            const noBtnText = document.getElementById('noBtnText');
+            const yesBtn = document.getElementById('yesBtn');
+
+            playChime(329.63, 0.2); // Melancholic cute chime
+
+            if (noClicks <= pleaQuotes.length) {
+                pleaText.innerHTML = `<span class="animate-pulse">${pleaQuotes[noClicks - 1]}</span>`;
+            }
+
+            // Enlarge YES button each time NO is pressed
+            const currentScale = 1 + (noClicks * 0.12);
+            yesBtn.style.transform = `scale(${currentScale})`;
+
+            if (noClicks === 3) {
+                noBtnText.innerText = "Pakka No? 🥺";
+            } else if (noClicks === 4) {
+                noBtnText.innerText = "Soch Lo Ek Bar 🥺";
+            } else if (noClicks >= 5) {
+                // Turn NO button into another cute YES
+                const noBtn = document.getElementById('noBtn');
+                noBtn.innerHTML = '<span>Achha Chalo Maan Gayi! 🥰</span>';
+                noBtn.classList.remove('from-rose-400', 'to-red-400');
+                noBtn.classList.add('from-emerald-400', 'to-teal-500');
+                noBtn.onclick = celebrateForgiveness;
+            }
+        }
+
+        // Grand Celebration
+        function celebrateForgiveness() {
+            if (navigator.vibrate) navigator.vibrate([80, 50, 100, 50, 150]);
+            triggerConfettiExplosion();
+            playVictoryFanfare();
+
+            const modal = document.getElementById('celebrationModal');
+            const card = document.getElementById('modalCard');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-90');
+                card.classList.add('scale-100');
+            }, 50);
+
+            document.getElementById('forgiveMascot').innerHTML = '🥰🎉💃';
+        }
+
+        function closeCelebrationModal() {
+            const modal = document.getElementById('celebrationModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function triggerConfettiExplosion() {
+            // Multi-stage confetti celebration
+            const count = 200;
+            const defaults = {
+                origin: { y: 0.7 }
+            };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, {
+                spread: 26,
+                startVelocity: 55,
+                colors: ['#ff4d6d', '#ff758f', '#ffb703']
+            });
+            fire(0.2, {
+                spread: 60,
+                colors: ['#ffffff', '#ffccd5', '#c9184a']
+            });
+            fire(0.35, {
+                spread: 100,
+                decay: 0.91,
+                scalar: 0.8
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 25,
+                decay: 0.92,
+                colors: ['#ffe4e6', '#fb7185', '#fda4af']
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 45,
+            });
+        }
+
+        // Save wife note
+        function saveWifeNote() {
+            const text = document.getElementById('wifeNoteInput').value.trim();
+            if (text) {
+                localStorage.setItem('wife_love_note', text);
+                const feedback = document.getElementById('wifeNoteFeedback');
+                feedback.classList.remove('hidden');
+                confetti({ particleCount: 30, spread: 50 });
+                playChime(698.46, 0.2);
+            }
+        }
+
+        // ==========================================
+        // WEB AUDIO API SYNTHESIZER (No external mp3)
+        // Romantic Music Box Lullaby & Chimes
+        // ==========================================
+        let audioCtx = null;
+        let isMusicPlaying = false;
+        let melodyTimer = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playChime(freq, duration = 0.2) {
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        function playVictoryFanfare() {
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((freq, index) => {
+                setTimeout(() => {
+                    playChime(freq, 0.35);
+                }, index * 140);
+            });
+        }
+
+        // Romantic Music Box Loop
+        const sweetMelody = [
+            { f: 523.25, d: 400 }, // C5
+            { f: 659.25, d: 400 }, // E5
+            { f: 783.99, d: 400 }, // G5
+            { f: 659.25, d: 400 }, // E5
+            { f: 880.00, d: 500 }, // A5
+            { f: 783.99, d: 500 }, // G5
+            { f: 659.25, d: 400 }, // E5
+            { f: 587.33, d: 600 }, // D5
+            { f: 523.25, d: 400 }, // C5
+            { f: 587.33, d: 400 }, // D5
+            { f: 659.25, d: 600 }, // E5
+            { f: 523.25, d: 800 }  // C5
+        ];
+
+        let noteIdx = 0;
+        function playNextNote() {
+            if (!isMusicPlaying) return;
+            const note = sweetMelody[noteIdx];
+            playChime(note.f, note.d / 1000);
+            noteIdx = (noteIdx + 1) % sweetMelody.length;
+            melodyTimer = setTimeout(playNextNote, note.d + 120);
+        }
+
+        function toggleCuteMusic() {
+            const btnText = document.getElementById('musicText');
+            const icon = document.getElementById('musicIcon');
+            if (!isMusicPlaying) {
+                getAudioContext();
+                isMusicPlaying = true;
+                noteIdx = 0;
+                playNextNote();
+                btnText.innerText = "Music Playing 💖";
+                icon.innerText = "🎶";
+            } else {
+                isMusicPlaying = false;
+                clearTimeout(melodyTimer);
+                btnText.innerText = "Play Sweet Music 🎶";
+                icon.innerText = "🎵";
+            }
+        }
+
+        // ==========================================
+        // FLOATING SAKURA / HEARTS BACKGROUND CANVAS
+        // ==========================================
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const symbols = ['💖', '🌸', '✨', '💕', '🧁', '🌷'];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 16 + 12;
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.speedY = Math.random() * 1.2 + 0.6;
+                this.symbol = symbols[Math.floor(Math.random() * symbols.length)];
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = (Math.random() - 0.5) * 1.5;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotSpeed;
+                if (this.y > canvas.height + 30) {
+                    this.y = -30;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.globalAlpha = this.opacity;
+                ctx.font = `${this.size}px serif`;
+                ctx.fillText(this.symbol, 0, 0);
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 35; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateBg() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // Check if there was a saved note from before
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('wife_love_note');
+            if (saved) {
+                const input = document.getElementById('wifeNoteInput');
+                if (input) input.value = saved;
+            }
+        });
+    </script>
+</body>
+</html>
