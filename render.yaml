@@ -1,6 +1,7 @@
 services:
   - type: web
     name: for-my-wifyji
-    env: static
+    runtime: node
+    plan: free
     buildCommand: ""
-    staticPublishPath: ./
+    startCommand: node server.js

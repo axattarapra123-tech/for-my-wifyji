@@ -4,6 +4,7 @@
   "description": "Romantic apology website for my dear princess ji wifyji 👑💖",
   "main": "server.js",
   "scripts": {
+    "build": "echo 'Build OK'",
     "start": "node server.js"
   },
   "keywords": ["apology", "love", "romantic"],
